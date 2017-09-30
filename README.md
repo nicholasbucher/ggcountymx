@@ -1,135 +1,82 @@
 ggcountymx
 ========
 
-Generate `ggplot2` `geom_map` United States county maps
+Generate `ggplot2` `geom_map` Mexico county maps
 
-This is a simple package with two purposes:
+This is a simple package with one purpose:
 
-- make it easier to generate US County maps (willing to do others if pointed to good shapefiles) with ggplot2 & geom_map
-- use more up-to-date shapefiles than what's in the `maps` package (I mean, it *still* uses "USSR" for Russia :-)
+- Make it easier to generate Mexico Municipality Choroplet maps
 
-As some folks have pointed out (and, one main reason I issued the request-for-comments at such an early stage) is that I wanted to gauge the desire for a more `geom`-oriented/generic way to do county-level mapping than the `#spiffy` [choroplethr](http://cran.r-project.org/web/packages/choroplethr/index.html) package.
-
-After installation, just do:
+For installation, just do:
 
     library(devtools)
-    install_github("hrbrmstr/ggcounty")
-    library(ggcounty)
+    install_github("nicholasbucher/ggcountymx")
+    library(ggcountymx)
 
-    maine <- ggcounty("Maine")
-    maine$gg
+    AGS <- ggcountymx("AGS")
+    AGS$gg
     
 To get:
 
-![map](https://rawgit.com/hrbrmstr/ggcounty/master/maine.svg)
+# ![map](https://rawgit.com/hrbrmstr/ggcounty/master/maine.svg)
 
-The `maine` object in the above code contains
+The `AGS` object in the above code contains
 
 - the `gg` ggplot2 object
-- a `map` object which is a "fortified" data frame
-- a `county.names` object which is a list of all county names (or FIPS codes) in that county
-- a `geom_map` object (`geom`) for the state county map
+- a `map` object which is the polygon points data frame
+- a `mun.names` object which is a list of all municipality names with FIPS codes in that municipality
+- a `geom` object (`geom`) for the municipality map
 
-Here is an example of the structure (truncated for brevity):
 
-    > str(maine)
-    List of 4
-     $ map         :'data.frame':	724 obs. of  7 variables:
-      ..$ long : num [1:724] -70 -70 -70 -70 -70 ...
-      ..$ lat  : num [1:724] 44.1 44.1 44 44 44 ...
-      ..$ order: int [1:724] 1 2 3 4 5 6 7 8 9 10 ...
-      ..$ hole : logi [1:724] FALSE FALSE FALSE FALSE FALSE FALSE ...
-      ..$ piece: Factor w/ 2 levels "1","2": 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ group: Factor w/ 18 levels "Androscoggin.1",..: 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ id   : chr [1:724] "Androscoggin" "Androscoggin" "Androscoggin" "Androscoggin" ...
-     $ county.names: chr [1:16] "Androscoggin" "Aroostook" "Cumberland" "Franklin" ...
-     $ gg          :List of 9
-      ..$ data       : list()
-      .. ..- attr(*, "class")= chr "waiver"
-      ..$ layers     :List of 1
-      .. ..$ :Classes 'proto', 'environment' <environment: 0x7f8cbe7292d8> 
-      ..$ scales     :Reference class 'Scales' [package "ggplot2"] with 1 fields
-      .. ..$ scales: list()
-      .. ..and 21 methods, of which 9 are possibly relevant:
-      .. ..  add, clone, find, get_scales, has_scale, initialize, input, n, non_position_scales
-      ..$ mapping    : list()
-      ..$ theme      :List of 7
-      .. ..$ plot.background :List of 4
-      .. .. ..$ fill    : chr "transparent"
-      .. .. ..$ colour  : logi NA
-      .. .. ..$ size    : NULL
-      .. .. ..$ linetype: NULL
-      .. .. ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-      .. ..$ panel.border    : list()
-      .. .. ..- attr(*, "class")= chr [1:2] "element_blank" "element"
-      .. ..$ panel.background:List of 4
-      .. .. ..$ fill    : chr "transparent"
-      .. .. ..$ colour  : logi NA
-      .. .. ..$ size    : NULL
-      .. .. ..$ linetype: NULL
-      .. .. ..- attr(*, "class")= chr [1:2] "element_rect" "element"
-      .. ..$ panel.grid      : list()
-      .. .. ..- attr(*, "class")= chr [1:2] "element_blank" "element"
-      .. ..$ axis.text       : list()
-      .. .. ..- attr(*, "class")= chr [1:2] "element_blank" "element"
-      .. ..$ axis.ticks      : list()
-      .. .. ..- attr(*, "class")= chr [1:2] "element_blank" "element"
-      .. ..$ legend.position : chr "right"
-      .. ..- attr(*, "class")= chr [1:2] "theme" "gg"
-      .. ..- attr(*, "complete")= logi FALSE
-      ..$ coordinates:List of 4
-      .. ..$ projection : chr "mercator"
-      .. ..$ orientation: NULL
-      .. ..$ limits     :List of 2
-      .. .. ..$ x: NULL
-      .. .. ..$ y: NULL
-      .. ..$ params     : list()
-      .. ..- attr(*, "class")= chr [1:2] "map" "coord"
-      ..$ facet      :List of 1
-      .. ..$ shrink: logi TRUE
-      .. ..- attr(*, "class")= chr [1:2] "null" "facet"
-      ..$ plot_env   :<environment: R_GlobalEnv> 
-      ..$ labels     :List of 3
-      .. ..$ x     : chr ""
-      .. ..$ y     : chr ""
-      .. ..$ map_id: chr "id"
-      ..- attr(*, "class")= chr [1:2] "gg" "ggplot"
-     $ geom        :Classes 'proto', 'environment' <environment: 0x7f8cbf7b5f58> 
-     
 This lets you add further map layers (e.g. for a choropleth):
 
-    library(ggcounty)
+    library(ggcountymx)
     
-    # built-in US population by FIPS code data set
-    data(population)
+    # built-in MEX socioeconomic by FIPS code data set from ENIGH 2016
+    data(socioeconomic)
     
-    # define appropriate (& nicely labeled) population breaks
-    population$brk <- cut(population$count, 
-                          breaks=c(0, 100, 1000, 10000, 100000, 1000000, 10000000), 
-                          labels=c("0-99", "100-1K", "1K-10K", "10K-100K", 
-                                   "100K-1M", "1M-10M"),
+    # define appropriate (& nicely labeled) socioeconomic breaks
+    
+    socioeconomic$brk<-cut(socioeconomic$Level,
+                           breaks=c(0, 0.5 , 1 , 1.5 , 2 , 2.5 , 3 ,3.5 , 4),
+                           labels=c("Outcast",
+                                    "Low",
+                                    "Lower Middle",
+                                    "Middle",
+                                    "Upper Middle",
+                                    "Lower High",
+                                    "Middle High",
+                                    "Upper High"),
                           include.lowest=TRUE)
-    
-    # get the US counties map (lower 48)
-    us <- ggcounty.us()
+                     
+    # get the Mexico municipality map
+    mx <- ggcountymx()
     
     # start the plot with our base map
-    gg <- us$g
+    gg <- mx$gg
     
     # add a new geom with our population (choropleth)
-    gg <- gg + geom_map(data=population, map=us$map,
-                        aes(map_id=FIPS, fill=brk), 
-                        color="white", size=0.125)
+    
+    choro_geom <- geom_map(data=Choroplet,
+                           map=Data,
+                           aes(map_id=FIPS, fill=brk),
+                           color="white", size=0.125)
+
+    gg<-gg + choro_geom
     
     # define nice colors
-    gg <- gg + scale_fill_manual(values=c("#ffffcc", "#c7e9b4", "#7fcdbb", 
-                                          "#41b6c4", "#2c7fb8", "#253494"), 
-                                 name="Population")
+    
+    choro_color<-scale_fill_manual(values=c("#ff0000", "#ff4000", "#ff8000",
+                                            "#ffbf00", "#ffff00", "#bfff00",
+                                            "#80ff00","#40ff00"),
+                                   name="Socioeconomic Class")
+    
+    gg<-gg + choro_color
     
     # plot the map
     gg
 
-![map2](https://rawgit.com/hrbrmstr/ggcounty/master/mainechoro.png)
+# ![map2](https://rawgit.com/hrbrmstr/ggcounty/master/mainechoro.png)
 
 And, combining individual maps is pretty straightforward:
 

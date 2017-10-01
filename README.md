@@ -10,14 +10,12 @@ This is a simple package with one purpose:
 For installation, do:
 
     library(devtools)
-    # Download Library and Polygon Dataset (read Note 1)
+    # Download Library (read Notes)
     install_github("nicholasbucher/ggcountymx")
-    download.file("https://drive.google.com/file/d/0BwNjFxbXxCswcWlLdzRXVjNuRWM/view?usp=sharing",
-                  paste0(.libPaths()[1],"/ggcountymx/data/mxcounty.rda"))
     
     library(ggcountymx)
     
-    # Load dataset to Enviroment
+    # Load dataset to Enviroment (read Notes)
     data(mxcounty)
     
     BCS <- ggcountymx("03")  # Entity code as Character 
@@ -36,8 +34,6 @@ The `BCS` object in the above code contains
 
 
 This lets you add further map layers (e.g. for a choropleth):
-
-    library(ggcountymx)
     
     # built-in MEX socioeconomic by FIPS code data set from ENIGH 2016
     data(socioeconomic)
@@ -98,6 +94,7 @@ And, combining individual maps is pretty straightforward:
 
 
 ## Notes:
-  - Mexico's territory is defined by more than three million geografic points, file is to big to be stored in github.
-  - `resolution` parameter reduces the number of points 
+  - Mexico's territory is defined by more than three million geografic points, file weights 46mb, hence, **download might take longer than usual**.
+  - File is to big to be read on every function call, after loading library **always** load dataset to Enviroment `data(mxcounty)`.
+  - `resolution` parameter reduces the percetage of points used.
 

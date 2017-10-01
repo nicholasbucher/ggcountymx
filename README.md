@@ -19,7 +19,7 @@ For installation, just do:
     
 To get:
 
-![map1](https://rawgit.com/nicholasbucher/ggcountymx/img/BCS_1.svg)
+![map1](ggcountymx/img/BCS_1.svg)
 
 The `BCS` object in the above code contains
 

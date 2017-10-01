@@ -19,7 +19,7 @@ For installation, just do:
     
 To get:
 
-![map1](https://raw.githubusercontent.com/nicholasbucher/ggcountymx/master/img/BCS_1.svg)
+![map1](https://rawgit.com/nicholasbucher/ggcountymx/master/img/BCS_1.svg)
 
 The `BCS` object in the above code contains
 
@@ -77,7 +77,7 @@ This lets you add further map layers (e.g. for a choropleth):
     # plot the map
     gg
 
-![map2](https://rawgit.com/nicholasbucher/ggcountymxmaster/master/img/BCS.jpeg)
+![map2](https://rawgit.com/nicholasbucher/ggcountymx/master/img/BCS.jpeg)
 
 And, combining individual maps is pretty straightforward:
 

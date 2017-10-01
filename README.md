@@ -14,12 +14,12 @@ For installation, just do:
     library(ggcountymx)
     data(mxcounty)
     
-    BJS <- ggcountymx("03")
+    BCS <- ggcountymx("03")
     BCS$gg
     
 To get:
 
-![map1](ggcountymx/img/BCS_1.svg)
+![map1](https://raw.githubusercontent.com/nicholasbucher/ggcountymx/master/img/BCS_1.svg)
 
 The `BCS` object in the above code contains
 
@@ -77,7 +77,7 @@ This lets you add further map layers (e.g. for a choropleth):
     # plot the map
     gg
 
-![map2](https://rawgit.com/nicholasbucher/ggcountymx/img/BCS.jpeg)
+![map2](https://rawgit.com/nicholasbucher/ggcountymxmaster/master/img/BCS.jpeg)
 
 And, combining individual maps is pretty straightforward:
 
@@ -88,5 +88,5 @@ And, combining individual maps is pretty straightforward:
     BCS$gg + BCN$geom + SON$geom
     
 
-![map2](https://rawgit.com/nicholasbucher/ggcountymx/img/COM.svg)
+![map2](https://rawgit.com/nicholasbucher/ggcountymx/master/img/COM.svg)
 

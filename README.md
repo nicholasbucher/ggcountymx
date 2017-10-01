@@ -7,14 +7,19 @@ This is a simple package with one purpose:
 
 - Make it easier to generate Mexico Municipality Choroplet maps
 
-For installation, just do:
+For installation, do:
 
     library(devtools)
+    # Download Library and Polygon Dataset (read Note 1)
     install_github("nicholasbucher/ggcountymx")
+    download.file("https://drive.google.com/file/d/0BwNjFxbXxCswcWlLdzRXVjNuRWM/view?usp=sharing",paste0(.libPaths()[1],"/ggcountymx/data/mxcounty.rda"))
+    
     library(ggcountymx)
+    
+    # Load dataset to Enviroment
     data(mxcounty)
     
-    BCS <- ggcountymx("03")
+    BCS <- ggcountymx("03")  # Entity code as Character 
     BCS$gg
     
 To get:
@@ -77,7 +82,7 @@ This lets you add further map layers (e.g. for a choropleth):
     # plot the map
     gg
 
-![map2](https://rawgit.com/nicholasbucher/ggcountymx/master/img/BCS.jpeg)
+![map2](https://rawgit.com/nicholasbucher/ggcountymx/master/img/BCS.svg)
 
 And, combining individual maps is pretty straightforward:
 
@@ -89,4 +94,9 @@ And, combining individual maps is pretty straightforward:
     
 
 ![map2](https://rawgit.com/nicholasbucher/ggcountymx/master/img/COM.svg)
+
+
+## Notes:
+  - Mexico's territory is defined by more than three million geografic points, file is to big to be stored in github.
+  - resolution parameter reduces the number of points 
 

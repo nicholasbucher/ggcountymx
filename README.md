@@ -12,7 +12,8 @@ For installation, do:
     library(devtools)
     # Download Library and Polygon Dataset (read Note 1)
     install_github("nicholasbucher/ggcountymx")
-    download.file("https://drive.google.com/file/d/0BwNjFxbXxCswcWlLdzRXVjNuRWM/view?usp=sharing",paste0(.libPaths()[1],"/ggcountymx/data/mxcounty.rda"))
+    download.file("https://drive.google.com/file/d/0BwNjFxbXxCswcWlLdzRXVjNuRWM/view?usp=sharing",
+                  paste0(.libPaths()[1],"/ggcountymx/data/mxcounty.rda"))
     
     library(ggcountymx)
     
@@ -98,5 +99,5 @@ And, combining individual maps is pretty straightforward:
 
 ## Notes:
   - Mexico's territory is defined by more than three million geografic points, file is to big to be stored in github.
-  - resolution parameter reduces the number of points 
+  - `resolution` parameter reduces the number of points 
 

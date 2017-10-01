@@ -3,9 +3,6 @@
 # From MathWorld--A Wolfram Web Resource.
 # http://mathworld.wolfram.com/LambertConformalConicProjection.html
 
-x<-Points[1,1]
-y<-Points[1,2]
-
 
 LCC_LonLat<-function(x,y){
 

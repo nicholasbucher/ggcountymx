@@ -1,42 +1,33 @@
 #' Returns a ggplot2 object with a geom_map of the requested county
 #'
-#' @param state name string (e.g. + default = "Maine")
+#' @param state name string (e.g. + default = "NULL)
+#' @param resolution (e.g. + default = 0.5)
 #' @param fill color string (e.g. + default = "white")
-#' @param border color string (e.g. + default = "#7f7f7f")
-#' @param border line width (e.g. + default = 0.25)
-#' @param fill alpha (e.g. + default = 1)
-#' @return list consisting of the fortified map object (map), list of county names (county.names) & the ggplot2 object (gg)
+#' @param color border string (e.g. + default = "#7f7f7f")
+#' @param size border line width (e.g. + default = 0.25)
+#' @param alpha (e.g. + default = 1)
+#' @return list of points (map), municipality id's (mun.id), ggplot2 object (gg), geom object (geom)
 #' @export
 #' @examples
-#' ggcountymx()
-ggcountymx <- function(state=NULL, fips=FALSE, fill="white",
-                     color="#7f7f7f", size=0.25, alpha=1) {
-
-
-  state.names <- c()
-
-  state <- tolower(gsub("\ ", "", state))
-
-  if (!state %in% state.names) { return(NULL) }
-
-  gpclibPermit()
-  require(gpclib)
-  require(sp)
-  require(maptools)
+#' ggcountymx("02")
+ggcountymx <- function(state = NULL,
+                       resolution=0.5,
+                       fill = "white",
+                       color = "#7f7f7f",
+                       size = 0.25,
+                       alpha = 1) {
   require(ggplot2)
-  require(mapproj)
 
-  county.file <- system.file(package="ggcountymx", "counties", sprintf("%s.shp", state))
+  mxcounty.ss<-mxcounty[seq(1,dim(mxcounty)[1],floor(1/resolution)),]
 
-  cty <- readShapePoly(county.file, repair=TRUE, IDvar=ifelse(fips,"FIPS","NAME"))
-
-  cty.f <- fortify(cty, region=ifelse(fips,"FIPS","NAME"))
+  if (!is.null(state)) {
+    mxcounty.ss<-subset(mxcounty.ss,substr(id,1,2)==state)
+  }
 
   gg <- ggplot()
-  cnty.geom <- geom_map(data=cty.f, map = cty.f, aes(map_id=id, x=long, y=lat),
-                        fill=fill, color=color, size=size, alpha=alpha)
-  gg <- gg + cnty.geom
-  gg <- gg + coord_map()
+  geom <- geom_map(data=mxcounty.ss, map = mxcounty.ss, aes(map_id=id,x=x, y=y),
+                   fill=fill, color=color, size=size, alpha=alpha)
+  gg <- gg + geom
   gg <- gg + labs(x="", y="")
   gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
                    panel.border = element_blank(),
@@ -46,6 +37,8 @@ ggcountymx <- function(state=NULL, fips=FALSE, fill="white",
                    axis.ticks = element_blank(),
                    legend.position = "right")
 
-  return(list(map=cty.f, county.names=unique(cty.f$id), gg=gg, geom=cnty.geom))
-
+  return(list(gg=gg, map=mxcounty.ss, mun.id=unique(mxcounty.ss$id), geom=geom))
 }
+
+#county.file <- system.file(package="ggcountymx", "counties", sprintf("%s.shp", state))
+#gg <- gg + coord_map()

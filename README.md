@@ -18,7 +18,7 @@ For installation, just do:
     
 To get:
 
-# ![map](https://rawgit.com/hrbrmstr/ggcounty/master/maine.svg)
+IMAGE1
 
 The `AGS` object in the above code contains
 

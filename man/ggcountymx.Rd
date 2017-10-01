@@ -4,26 +4,28 @@
 \alias{ggcountymx}
 \title{Returns a ggplot2 object with a geom_map of the requested county}
 \usage{
-ggcountymx(state = "Maine", fips = FALSE, fill = "white",
+ggcountymx(state = NULL, resolution = 0.5, fill = "white",
   color = "#7f7f7f", size = 0.25, alpha = 1)
 }
 \arguments{
-\item{state}{name string (e.g. + default = "Maine")}
+\item{state}{name string (e.g. + default = "NULL)}
+
+\item{resolution}{(e.g. + default = 0.5)}
 
 \item{fill}{color string (e.g. + default = "white")}
 
-\item{border}{color string (e.g. + default = "#7f7f7f")}
+\item{color}{border string (e.g. + default = "#7f7f7f")}
 
-\item{border}{line width (e.g. + default = 0.25)}
+\item{size}{border line width (e.g. + default = 0.25)}
 
-\item{fill}{alpha (e.g. + default = 1)}
+\item{alpha}{(e.g. + default = 1)}
 }
 \value{
-list consisting of the fortified map object (map), list of county names (county.names) & the ggplot2 object (gg)
+list of points (map), municipality id's (mun.id), ggplot2 object (gg), geom object (geom)
 }
 \description{
 Returns a ggplot2 object with a geom_map of the requested county
 }
 \examples{
-ggcountymx("newyork")
+ggcountymx("02")
 }

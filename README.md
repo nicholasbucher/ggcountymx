@@ -12,15 +12,16 @@ For installation, just do:
     library(devtools)
     install_github("nicholasbucher/ggcountymx")
     library(ggcountymx)
-
-    AGS <- ggcountymx("AGS")
-    AGS$gg
+    data(mxcounty)
+    
+    BJS <- ggcountymx("03")
+    BCS$gg
     
 To get:
 
-IMAGE1
+![map1](https://rawgit.com/nicholasbucher/ggcountymx/img/BCS_1.svg)
 
-The `AGS` object in the above code contains
+The `BCS` object in the above code contains
 
 - the `gg` ggplot2 object
 - a `map` object which is the polygon points data frame
@@ -50,15 +51,15 @@ This lets you add further map layers (e.g. for a choropleth):
                           include.lowest=TRUE)
                      
     # get the Mexico municipality map
-    mx <- ggcountymx()
+    BCS <- ggcountymx("03")
     
     # start the plot with our base map
-    gg <- mx$gg
+    gg <- BCS$gg
     
     # add a new geom with our population (choropleth)
     
-    choro_geom <- geom_map(data=Choroplet,
-                           map=Data,
+    choro_geom <- geom_map(data=socioeconomic,
+                           map=BCS$map,
                            aes(map_id=FIPS, fill=brk),
                            color="white", size=0.125)
 
@@ -76,30 +77,16 @@ This lets you add further map layers (e.g. for a choropleth):
     # plot the map
     gg
 
-# ![map2](https://rawgit.com/hrbrmstr/ggcounty/master/mainechoro.png)
+![map2](https://rawgit.com/nicholasbucher/ggcountymx/img/BCS.jpeg)
 
 And, combining individual maps is pretty straightforward:
 
-    ny <- ggcounty("New York", fill="#c7e9b4", color="white")
-    nj <- ggcounty("New Jersey", fill="#41b6c4", color="white")
-    pa <- ggcounty("Pennsylvania", fill="#253494", color="white")
+    BCN <- ggcountymx("02", fill="#c7e9b4", color="white")
+    BCS <- ggcountymx("03", fill="#41b6c4", color="white")
+    SON <- ggcountymx("26", fill="#253494", color="white")
 
-    ny$gg + nj$geom + pa$geom 
+    BCS$gg + BCN$geom + SON$geom
     
 
-![map2](https://rawgit.com/hrbrmstr/ggcounty/master/tristate.png)
+![map2](https://rawgit.com/nicholasbucher/ggcountymx/img/COM.svg)
 
-or have the county names/FIPS codes as a quick reference or for verifitcation.
-
-    > ny$county.names
-     [1] "Albany"       "Allegany"     "Bronx"        "Broome"       "Cattaraugus"  "Cayuga"      
-     [7] "Chautauqua"   "Chemung"      "Chenango"     "Clinton"      "Columbia"     "Cortland"    
-    [13] "Delaware"     "Dutchess"     "Erie"         "Essex"        "Franklin"     "Fulton"      
-    [19] "Genesee"      "Greene"       "Hamilton"     "Herkimer"     "Jefferson"    "Kings"       
-    [25] "Lewis"        "Livingston"   "Madison"      "Monroe"       "Montgomery"   "Nassau"      
-    [31] "New York"     "Niagara"      "Oneida"       "Onondaga"     "Ontario"      "Orange"      
-    [37] "Orleans"      "Oswego"       "Otsego"       "Putnam"       "Queens"       "Rensselaer"  
-    [43] "Richmond"     "Rockland"     "Saratoga"     "Schenectady"  "Schoharie"    "Schuyler"    
-    [49] "Seneca"       "St. Lawrence" "Steuben"      "Suffolk"      "Sullivan"     "Tioga"       
-    [55] "Tompkins"     "Ulster"       "Warren"       "Washington"   "Wayne"        "Westchester" 
-    [61] "Wyoming"      "Yates"  

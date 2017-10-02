@@ -1,6 +1,5 @@
 ggcountymx
 ========
-
 Generate `ggplot2` `geom_map` Mexico county maps
 
 This is a simple package with one purpose:
@@ -16,7 +15,7 @@ For installation, do:
     library(ggcountymx)
     
     # Load dataset to Enviroment (read Notes)
-    data(mxcounty)
+    data(geomx)
     
     BCS <- ggcountymx("03")  # Entity code as Character 
     BCS$gg
@@ -95,6 +94,6 @@ And, combining individual maps is pretty straightforward:
 
 ## Notes:
   - Mexico's territory is defined by more than three million geografic points, file weights 46mb, hence, **download might take longer than usual**.
-  - File is to big to be read on every function call, after loading library **always** load dataset to Enviroment `data(mxcounty)`.
+  - File is to big to be read on every function call, after loading library **always** load dataset to Enviroment `data(geomx)`.
   - `resolution` parameter reduces the percetage of points used.
 
